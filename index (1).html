@@ -1078,48 +1078,53 @@
     btn.disabled = true;
     btn.textContent = 'Submitting…';
 
-    // Gather all data
-    const entry = {
-      name, phone, email, type,
-      company:      document.getElementById('f-company')?.value || '',
-      companySize:  document.getElementById('f-size')?.value || '',
-      hmo:          document.getElementById('f-hmo')?.value || '',
-      employerName: document.getElementById('f-employer-name')?.value || '',
-      providerName: document.getElementById('f-provider')?.value || '',
-      providerType: document.getElementById('f-provider-type')?.value || '',
-      state:        document.getElementById('f-state')?.value || '',
-      timeline:     document.querySelector('input[name="timeline"]:checked')?.value || '',
-      excitement:   document.querySelector('input[name="excitement"]:checked')?.value || '',
-      message:      document.getElementById('f-message').value.trim(),
-      source:       document.getElementById('f-source').value,
-      submittedAt:  new Date().toISOString()
-    };
+    // Build FormData (works even with ad blockers that block fetch JSON)
+    const fd = new FormData();
+    fd.append('name',         name);
+    fd.append('email',        email);
+    fd.append('phone',        phone);
+    fd.append('type',         type);
+    fd.append('company',      document.getElementById('f-company')?.value || '');
+    fd.append('companySize',  document.getElementById('f-size')?.value || '');
+    fd.append('hmo',          document.getElementById('f-hmo')?.value || '');
+    fd.append('employerName', document.getElementById('f-employer-name')?.value || '');
+    fd.append('providerName', document.getElementById('f-provider')?.value || '');
+    fd.append('providerType', document.getElementById('f-provider-type')?.value || '');
+    fd.append('state',        document.getElementById('f-state')?.value || '');
+    fd.append('timeline',     document.querySelector('input[name="timeline"]:checked')?.value || '');
+    fd.append('excitement',   document.querySelector('input[name="excitement"]:checked')?.value || '');
+    fd.append('message',      document.getElementById('f-message').value.trim());
+    fd.append('source',       document.getElementById('f-source').value);
+    fd.append('submittedAt',  new Date().toISOString());
 
-    // Save to localStorage (as backup until you wire up a backend)
+    // Save to localStorage as backup
     try {
+      const entry = Object.fromEntries(fd.entries());
       const existing = JSON.parse(localStorage.getItem('cura_waitlist') || '[]');
       existing.push(entry);
       localStorage.setItem('cura_waitlist', JSON.stringify(existing));
     } catch(e) {}
 
-    // ── Formspree endpoint ──
+    // Submit to Formspree
     fetch('https://formspree.io/f/mzdjbzkv', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(entry)
+      headers: { 'Accept': 'application/json' },
+      body: fd
     })
     .then(res => {
       if (res.ok) {
         showSuccess();
       } else {
-        res.json().then(data => {
+        return res.json().then(data => {
           btn.disabled = false;
           btn.textContent = 'Join the Waitlist →';
-          alert('Something went wrong. Please try again.');
+          const msg = data.errors ? data.errors.map(e => e.message).join(', ') : 'Something went wrong.';
+          alert('Error: ' + msg + ' Please try again.');
         });
       }
     })
-    .catch(() => {
+    .catch(err => {
+      console.error('Formspree error:', err);
       btn.disabled = false;
       btn.textContent = 'Join the Waitlist →';
       alert('Network error. Please check your connection and try again.');
