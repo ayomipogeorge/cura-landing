@@ -981,7 +981,7 @@
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
-        <a href="mailto:hello@getcura.ng">hello@getcura.ng</a>
+        <a href="/cdn-cgi/l/email-protection#cca4a9a0a0a38caba9b8afb9beade2a2ab"><span class="__cf_email__" data-cfemail="224a474e4e4d62454756415750430c4c45">[email&#160;protected]</span></a>
         <a href="#">Lagos, Nigeria 🇳🇬</a>
       </div>
     </div>
@@ -992,7 +992,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── Modal open/close ──
   function openModal(type) {
     const overlay = document.getElementById('modalOverlay');
@@ -1102,13 +1102,28 @@
       localStorage.setItem('cura_waitlist', JSON.stringify(existing));
     } catch(e) {}
 
-    // ── Wire your real endpoint here ──
-    // fetch('/api/waitlist', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(entry) })
-    //   .then(() => showSuccess())
-    //   .catch(() => showSuccess()); // show success anyway for now
-
-    // Simulate network request (remove the setTimeout once you have a real endpoint)
-    setTimeout(showSuccess, 1200);
+    // ── Formspree endpoint ──
+    fetch('https://formspree.io/f/mzdjbzkv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(entry)
+    })
+    .then(res => {
+      if (res.ok) {
+        showSuccess();
+      } else {
+        res.json().then(data => {
+          btn.disabled = false;
+          btn.textContent = 'Join the Waitlist →';
+          alert('Something went wrong. Please try again.');
+        });
+      }
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Join the Waitlist →';
+      alert('Network error. Please check your connection and try again.');
+    });
   }
 
   function showSuccess() {
@@ -1145,10 +1160,3 @@
   // ── Scroll reveal ──
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-</script>
-</body>
-</html>
