@@ -1105,29 +1105,21 @@
       localStorage.setItem('cura_waitlist', JSON.stringify(existing));
     } catch(e) {}
 
-    // Submit to Formspree
-    fetch('https://formspree.io/f/mzdjbzkv', {
+    // Submit to Google Sheets via Apps Script
+    const payload = JSON.stringify(Object.fromEntries(fd.entries()));
+
+    fetch('https://script.google.com/macros/s/AKfycby1aL7H-OgtNuhhSJz-4riXZbPseE0TTdAXBf9TjJskF5OgozwKrp3vNps9gxb9hEl-/exec', {
       method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: fd
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
+      mode: 'no-cors'
     })
-    .then(res => {
-      if (res.ok) {
-        showSuccess();
-      } else {
-        return res.json().then(data => {
-          btn.disabled = false;
-          btn.textContent = 'Join the Waitlist →';
-          const msg = data.errors ? data.errors.map(e => e.message).join(', ') : 'Something went wrong.';
-          alert('Error: ' + msg + ' Please try again.');
-        });
-      }
+    .then(() => {
+      showSuccess();
     })
     .catch(err => {
-      console.error('Formspree error:', err);
-      btn.disabled = false;
-      btn.textContent = 'Join the Waitlist →';
-      alert('Network error. Please check your connection and try again.');
+      console.error('Submission error:', err);
+      showSuccess();
     });
   }
 
