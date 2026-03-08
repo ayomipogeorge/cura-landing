@@ -1105,21 +1105,14 @@
       localStorage.setItem('cura_waitlist', JSON.stringify(existing));
     } catch(e) {}
 
-    // Submit to Google Sheets via Apps Script (GET with URL params)
+    // Submit to Google Sheets via image ping (bypasses CORS completely)
     const params = new URLSearchParams(Object.fromEntries(fd.entries()));
     const url = 'https://script.google.com/macros/s/AKfycby1aL7H-OgtNuhhSJz-4riXZbPseE0TTdAXBf9TjJskF5OgozwKrp3vNps9gxb9hEl-/exec?' + params.toString();
 
-    fetch(url, {
-      method: 'GET',
-      mode: 'no-cors'
-    })
-    .then(() => {
-      showSuccess();
-    })
-    .catch(err => {
-      console.error('Submission error:', err);
-      showSuccess();
-    });
+    const img = new Image();
+    img.onload = () => showSuccess();
+    img.onerror = () => showSuccess(); // show success either way — data was sent
+    img.src = url;
   }
 
   function showSuccess() {
