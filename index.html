@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F1F3D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23F59E0B' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E" />
   <title>Cura — Health Wallet Platform</title>
   <meta name="description" content="Nigeria's payroll-backed health wallet. Real healthcare benefits for every employee — trackable, flexible and backed by your salary." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,129 +19,6 @@
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
-
-    /* ═══════════════════════════════════════
-       WAITLIST MODAL
-    ═══════════════════════════════════════ */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 2000;
-      background: rgba(5, 12, 25, 0.93);
-      backdrop-filter: blur(10px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 1rem;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--navy-mid);
-      border: 1px solid rgba(245,158,11,0.25);
-      border-radius: 20px;
-      width: 100%; max-width: 580px;
-      max-height: 92vh;
-      overflow-y: auto;
-      padding: 2.5rem;
-      position: relative;
-      transform: translateY(20px) scale(0.97);
-      transition: transform 0.35s ease;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-      scrollbar-width: thin; scrollbar-color: var(--amber) transparent;
-    }
-    .modal::-webkit-scrollbar { width: 4px; }
-    .modal::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 4px; }
-    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-
-    .modal-close {
-      position: absolute; top: 1.2rem; right: 1.2rem;
-      width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: none;
-      color: var(--white); font-size: 1rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s; flex-shrink: 0;
-    }
-    .modal-close:hover { background: rgba(255,255,255,0.18); }
-    .modal-badge {
-      display: inline-block;
-      background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);
-      color: var(--amber); font-size: 0.75rem; font-weight: 600;
-      padding: 0.3rem 0.9rem; border-radius: 100px; margin-bottom: 0.7rem;
-    }
-    .modal h2 {
-      font-family: 'Syne', sans-serif; font-size: 1.65rem; font-weight: 800;
-      line-height: 1.2; margin-bottom: 0.4rem;
-    }
-    .modal-sub { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.8rem; line-height: 1.6; }
-
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
-    .form-group.full { grid-column: 1 / -1; }
-    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.02em; }
-    .form-group label span { color: var(--amber); margin-left: 2px; }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px; padding: 0.72rem 1rem;
-      color: var(--white); font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem; width: 100%; outline: none;
-      transition: border-color 0.2s, background 0.2s;
-      -webkit-appearance: none; appearance: none;
-    }
-    .form-group select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238899BB' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 0.9rem center; padding-right: 2.5rem;
-    }
-    .form-group select option { background: var(--navy-mid); color: var(--white); }
-    .form-group textarea { resize: vertical; min-height: 85px; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: var(--amber); background: rgba(245,158,11,0.05);
-    }
-    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(136,153,187,0.45); }
-
-    .interest-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .interest-pill { position: relative; }
-    .interest-pill input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
-    .interest-pill .pill-label {
-      display: inline-block; padding: 0.42rem 1rem;
-      border-radius: 100px; border: 1px solid rgba(255,255,255,0.15);
-      font-size: 0.82rem; font-weight: 500; cursor: pointer;
-      transition: all 0.2s; color: var(--text-muted);
-    }
-    .interest-pill input:checked + .pill-label {
-      background: var(--amber); color: var(--navy);
-      border-color: var(--amber); font-weight: 700;
-    }
-    .interest-pill .pill-label:hover { border-color: var(--amber); color: var(--amber); }
-
-    .form-divider {
-      grid-column: 1 / -1;
-      height: 1px; background: rgba(255,255,255,0.08);
-      margin: 0.3rem 0;
-    }
-    .form-section-label {
-      grid-column: 1 / -1;
-      font-size: 0.75rem; font-weight: 700; color: var(--amber);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem;
-    }
-
-    .form-submit {
-      width: 100%; margin-top: 1.5rem;
-      background: var(--amber); color: var(--navy);
-      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
-      padding: 1rem; border: none; border-radius: 10px;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .form-submit:hover { background: var(--amber-light); transform: translateY(-1px); }
-    .form-submit:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
-    .form-note { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.8rem; line-height: 1.5; }
-
-    .modal-success { text-align: center; padding: 2rem 0; display: none; }
-    .modal-success.show { display: block; }
-    .success-icon { font-size: 3.5rem; margin-bottom: 1rem; }
-    .modal-success h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.6rem; }
-    .modal-success p { color: var(--text-muted); line-height: 1.7; font-size: 0.92rem; }
-    .modal-success .form-submit { max-width: 220px; margin: 1.5rem auto 0; display: block; }
 
     /* ═══════════════════════════════════════
        NAV
@@ -541,209 +419,6 @@
 </head>
 <body>
 
-<!-- ═══ WAITLIST MODAL ═══ -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
-
-    <div id="modalForm">
-      <div class="modal-badge">🎉 Early Access — Limited Spots</div>
-      <h2 id="modalTitle">Join the Waitlist</h2>
-      <p class="modal-sub">Be among the first on Cura. Early members get priority onboarding and 3 months free. Fill in your details below.</p>
-
-      <div class="form-grid">
-
-        <!-- Basic Info -->
-        <div class="form-section-label">Your Details</div>
-
-        <div class="form-group">
-          <label>Full Name <span>*</span></label>
-          <input type="text" id="f-name" placeholder="Adaeze Okonkwo" autocomplete="name" />
-        </div>
-        <div class="form-group">
-          <label>Phone Number <span>*</span></label>
-          <input type="tel" id="f-phone" placeholder="08012345678" autocomplete="tel" />
-        </div>
-        <div class="form-group full">
-          <label>Email Address <span>*</span></label>
-          <input type="email" id="f-email" placeholder="adaeze@company.com" autocomplete="email" />
-        </div>
-
-        <div class="form-divider"></div>
-
-        <!-- Role -->
-        <div class="form-section-label">Your Role</div>
-
-        <div class="form-group full">
-          <label>I am joining as <span>*</span></label>
-          <select id="f-type">
-            <option value="">— Select your role —</option>
-            <option value="employer">🏢  Employer / HR Manager — I want to give my team Cura</option>
-            <option value="employee">👤  Employee — I want my company to adopt Cura</option>
-            <option value="provider">🏥  Healthcare Provider — I want to join the network</option>
-            <option value="investor">📈  Investor — I'm interested in investing in Cura</option>
-            <option value="partner">🔗  Partner / Integration — API or tech partnership</option>
-            <option value="other">💬  Other</option>
-          </select>
-        </div>
-
-        <!-- Employer fields -->
-        <div class="form-group full" id="companyGroup" style="display:none">
-          <label>Company Name <span>*</span></label>
-          <input type="text" id="f-company" placeholder="Acme Technologies Ltd" autocomplete="organization" />
-        </div>
-        <div class="form-group" id="sizeGroup" style="display:none">
-          <label>Number of Employees</label>
-          <select id="f-size">
-            <option value="">Select range</option>
-            <option value="1-10">1 – 10</option>
-            <option value="11-50">11 – 50</option>
-            <option value="51-200">51 – 200</option>
-            <option value="201-500">201 – 500</option>
-            <option value="500+">500+</option>
-          </select>
-        </div>
-        <div class="form-group" id="hmoGroup" style="display:none">
-          <label>Currently using HMO?</label>
-          <select id="f-hmo">
-            <option value="">Select</option>
-            <option value="yes-active">Yes, actively used</option>
-            <option value="yes-low">Yes, but low utilisation</option>
-            <option value="no">No HMO currently</option>
-            <option value="considering">Exploring options</option>
-          </select>
-        </div>
-
-        <!-- Employee fields -->
-        <div class="form-group full" id="employerNameGroup" style="display:none">
-          <label>Your Employer / Company</label>
-          <input type="text" id="f-employer-name" placeholder="Name of company you work for" />
-        </div>
-
-        <!-- Provider fields -->
-        <div class="form-group full" id="providerNameGroup" style="display:none">
-          <label>Business / Practice Name <span>*</span></label>
-          <input type="text" id="f-provider" placeholder="Lagos Island Clinic" />
-        </div>
-        <div class="form-group" id="providerTypeGroup" style="display:none">
-          <label>Provider Type</label>
-          <select id="f-provider-type">
-            <option value="">Select type</option>
-            <option value="hospital">Hospital</option>
-            <option value="pharmacy">Pharmacy</option>
-            <option value="clinic">Clinic</option>
-            <option value="specialist">Specialist Practice</option>
-            <option value="gym">Gym / Wellness Centre</option>
-            <option value="lab">Diagnostics / Lab</option>
-            <option value="dental">Dental Practice</option>
-            <option value="optical">Optical</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="form-group" id="stateGroup" style="display:none">
-          <label>State</label>
-          <select id="f-state">
-            <option value="">Select state</option>
-            <option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option>
-            <option>Kano</option><option>Oyo</option><option>Edo</option>
-            <option>Delta</option><option>Anambra</option><option>Enugu</option>
-            <option>Kaduna</option><option>Ondo</option><option>Ogun</option>
-            <option>Osun</option><option>Ekiti</option><option>Kwara</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div class="form-divider"></div>
-
-        <!-- Interest & Timeline -->
-        <div class="form-section-label">Timeline & Interest</div>
-
-        <div class="form-group full">
-          <label>How soon are you looking to get started?</label>
-          <div class="interest-pills">
-            <label class="interest-pill">
-              <input type="radio" name="timeline" value="asap" />
-              <span class="pill-label">ASAP</span>
-            </label>
-            <label class="interest-pill">
-              <input type="radio" name="timeline" value="1month" />
-              <span class="pill-label">Within 1 month</span>
-            </label>
-            <label class="interest-pill">
-              <input type="radio" name="timeline" value="3months" />
-              <span class="pill-label">1 – 3 months</span>
-            </label>
-            <label class="interest-pill">
-              <input type="radio" name="timeline" value="exploring" />
-              <span class="pill-label">Just exploring</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group full">
-          <label>How excited are you about Cura?</label>
-          <div class="interest-pills">
-            <label class="interest-pill">
-              <input type="radio" name="excitement" value="very" />
-              <span class="pill-label">🔥 Very excited</span>
-            </label>
-            <label class="interest-pill">
-              <input type="radio" name="excitement" value="interested" />
-              <span class="pill-label">👍 Interested</span>
-            </label>
-            <label class="interest-pill">
-              <input type="radio" name="excitement" value="curious" />
-              <span class="pill-label">🤔 Just curious</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-divider"></div>
-        <div class="form-section-label">A Bit More</div>
-
-        <div class="form-group full">
-          <label>What's your biggest healthcare challenge right now?</label>
-          <textarea id="f-message" placeholder="Tell us what's broken for you, what you're hoping Cura will fix, or any questions you have..."></textarea>
-        </div>
-
-        <div class="form-group full">
-          <label>How did you hear about Cura?</label>
-          <select id="f-source">
-            <option value="">Select</option>
-            <option value="linkedin">LinkedIn</option>
-            <option value="twitter">Twitter / X</option>
-            <option value="referral">Friend / Colleague referral</option>
-            <option value="google">Google Search</option>
-            <option value="event">Event / Conference</option>
-            <option value="press">Press / Media</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-      </div><!-- end form-grid -->
-
-      <button class="form-submit" id="submitBtn" onclick="submitForm()">
-        Join the Waitlist →
-      </button>
-      <p class="form-note">🔒 Your information is private and secure. We'll only contact you about Cura — no spam, ever.</p>
-    </div><!-- end modalForm -->
-
-    <!-- Success state -->
-    <div class="modal-success" id="modalSuccess">
-      <div class="success-icon">🎉</div>
-      <h3>You're on the list!</h3>
-      <p>
-        Thank you for joining the Cura waitlist.<br/><br/>
-        We'll reach out very soon with your early access details.
-        In the meantime, tell a colleague — the more your company knows about Cura, the faster we can onboard you.
-      </p>
-      <button class="form-submit" onclick="closeModal()">Close</button>
-    </div>
-
-  </div>
-</div>
-
 <!-- ═══ NAV ═══ -->
 <nav id="mainNav">
   <a href="#" class="nav-logo">Cura</a>
@@ -753,7 +428,7 @@
     <a href="#employees">Employees</a>
     <a href="#providers">Providers</a>
     <a href="https://app.getcura.co/login">Log in</a>
-    <button class="nav-cta" onclick="openModal('')">Join Waitlist</button>
+    <a href="https://app.getcura.co/register" class="nav-cta" style="text-decoration:none;">Get Started</a>
   </div>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -767,7 +442,7 @@
   <a href="#employees" onclick="closeMenu()">For Employees</a>
   <a href="#providers" onclick="closeMenu()">For Providers</a>
   <a href="https://app.getcura.co/login" onclick="closeMenu()">Log in</a>
-  <a href="#" class="mob-cta" onclick="closeMenu(); openModal('')">Join the Waitlist →</a>
+  <a href="https://app.getcura.co/register" class="mob-cta" onclick="closeMenu()">Get Started →</a>
 </div>
 
 <!-- ═══ HERO ═══ -->
@@ -776,7 +451,7 @@
   <div class="hero-glow"></div>
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-badge"><span class="badge-dot"></span> Launching in Nigeria — Join the Waitlist</div>
+      <div class="hero-badge"><span class="badge-dot"></span> Now Live in Nigeria</div>
       <h1>Your team deserves<br/><em>real healthcare</em><br/>not broken HMOs</h1>
       <p>Cura is a payroll-backed health wallet that gives every employee exact, trackable health spending power — with credit access, interest on savings, and verified providers.</p>
       <div class="hero-actions">
@@ -973,7 +648,7 @@
         <a href="#">About Us</a>
         <a href="#">Careers</a>
         <a href="#">Press</a>
-        <a href="#" onclick="openModal('investor'); return false;">Investors</a>
+        <a href="#">Investors</a>
       </div>
       <div class="footer-col">
         <h4>Legal</h4>
@@ -990,7 +665,7 @@
   </div>
   <div class="footer-bottom">
     <p>© 2026 Cura Health Technologies Ltd. All rights reserved.</p>
-    <p>Built with ❤️ in Nigeria · <a href="#" onclick="openModal(''); return false;">Join Waitlist</a></p>
+    <p>Built with ❤️ in Nigeria · <a href="https://app.getcura.co/register">Get Started</a></p>
   </div>
 </footer>
 
